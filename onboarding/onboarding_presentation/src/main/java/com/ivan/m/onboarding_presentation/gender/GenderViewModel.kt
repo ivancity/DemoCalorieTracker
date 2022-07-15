@@ -19,19 +19,29 @@ import javax.inject.Inject
 class GenderViewModel @Inject constructor(
     private val preferences: Preferences
 ): ViewModel() {
+    // Make sure to specify the type otherwise we will only accept Gender.Male types
+    // instead of Gender.
     var selectedGender by mutableStateOf<Gender>(Gender.Male)
         private set
 
+    // Send one time events to the UI, it makes sure we do things once. It will not
+    // run again if we have orientation change for example.
     private val _uiEvent = Channel<UiEvent>()
+    // Flow helps us for observing only
     val uiEvent = _uiEvent.receiveAsFlow()
 
     fun onGenderClick(gender: Gender) {
         selectedGender = gender
     }
 
+    /**
+     * This function uses a coroutine and the viewModelScope, this is because we re sending
+     * and event using a Channel. This send method is a suspend operation.
+     */
     fun onNextClick() {
         viewModelScope.launch {
             preferences.saveGender(selectedGender)
+            // suspend operation
             _uiEvent.send(UiEvent.Navigate(Route.AGE))
         }
     }

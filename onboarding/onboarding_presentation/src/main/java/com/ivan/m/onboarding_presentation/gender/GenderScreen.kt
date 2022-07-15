@@ -24,6 +24,8 @@ fun GenderScreen(
     viewModel: GenderViewModel = hiltViewModel()
 ) {
     val spacing = LocalSpacing.current
+    // We need to use it in order to launch a coroutine and be able to listen the different changes
+    // coming from our viewModel's flow called uiEvent.
     LaunchedEffect(key1 = true) {
         viewModel.uiEvent.collect { event ->
             when(event) {
