@@ -4,6 +4,8 @@ import android.app.Application
 import androidx.room.Room
 import com.ivan.m.tracker_data.local.TrackerDatabase
 import com.ivan.m.tracker_data.remote.OpenFoodApi
+import com.ivan.m.tracker_data.repository.TrackerRepositoryImpl
+import com.ivan.m.tracker_domain.repository.TrackerRepository
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -52,5 +54,22 @@ object TrackerDataModule {
             TrackerDatabase::class.java,
             "tracker_db"
         ).build()
+    }
+
+    /**
+     * We are passing a db for this parameter because we want a way to test easier. For instance,
+     * Room provides in memory database for testing, and we could use that first and later pass
+     * the DAO object like we have in the code to the repository implementation.
+     */
+    @Provides
+    @Singleton
+    fun provideTrackerRepository(
+        api: OpenFoodApi,
+        db: TrackerDatabase
+    ): TrackerRepository {
+        return TrackerRepositoryImpl(
+            dao = db.dao,
+            api = api
+        )
     }
 }
