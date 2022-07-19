@@ -1,4 +1,4 @@
-package com.ivan.m.democalorietracker.ui.theme
+package com.ivan.m.core_ui
 
 import androidx.compose.ui.graphics.Color
 
