@@ -10,7 +10,6 @@ import com.ivan.m.core.domain.use_case.FilterOutDigits
 import com.ivan.m.core.util.UiEvent
 import com.ivan.m.core.util.UiText
 import com.ivan.m.core.R
-import com.ivan.m.core.navigation.Route
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.receiveAsFlow
@@ -46,7 +45,7 @@ class HeightViewModel @Inject constructor(
                 return@launch
             }
             preferences.saveHeight(heightNumber)
-            _uiEvent.send(UiEvent.Navigate(Route.WEIGHT))
+            _uiEvent.send(UiEvent.Success)
         }
     }
 }

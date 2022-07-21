@@ -20,14 +20,14 @@ import com.ivan.m.onboarding_presentation.components.SelectableButton
 
 @Composable
 fun GoalScreen(
-    onNavigate: (UiEvent.Navigate) -> Unit,
+    onNextClick: () -> Unit,
     viewModel: GoalViewModel = hiltViewModel()
 ) {
     val spacing = LocalSpacing.current
     LaunchedEffect(key1 = true) {
         viewModel.uiEvent.collect { event ->
             when (event) {
-                is UiEvent.Navigate -> onNavigate(event)
+                is UiEvent.Success -> onNextClick()
                 else -> Unit
             }
         }
@@ -46,7 +46,7 @@ fun GoalScreen(
                 text = stringResource(id = R.string.lose_keep_or_gain_weight),
                 style = MaterialTheme.typography.h3
             )
-            Spacer(modifier = androidx.compose.ui.Modifier.height(spacing.spaceMedium))
+            Spacer(modifier = Modifier.height(spacing.spaceMedium))
             Row {
                 SelectableButton(
                     text = stringResource(id = R.string.lose),
@@ -60,7 +60,7 @@ fun GoalScreen(
                         fontWeight = FontWeight.Normal
                     )
                 )
-                Spacer(modifier = androidx.compose.ui.Modifier.width(spacing.spaceMedium))
+                Spacer(modifier = Modifier.width(spacing.spaceMedium))
                 SelectableButton(
                     text = stringResource(id = R.string.keep),
                     isSelected = viewModel.selectedGoal is GoalType.KeepWeight,
@@ -73,7 +73,7 @@ fun GoalScreen(
                         fontWeight = FontWeight.Normal
                     )
                 )
-                Spacer(modifier = androidx.compose.ui.Modifier.width(spacing.spaceMedium))
+                Spacer(modifier = Modifier.width(spacing.spaceMedium))
                 SelectableButton(
                     text = stringResource(id = R.string.gain),
                     isSelected = viewModel.selectedGoal is GoalType.GainWeight,

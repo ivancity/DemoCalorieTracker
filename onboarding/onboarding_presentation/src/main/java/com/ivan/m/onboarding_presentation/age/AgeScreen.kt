@@ -20,7 +20,7 @@ import com.ivan.m.onboarding_presentation.components.UnitTextField
 @Composable
 fun AgeScreen(
     scaffoldState: ScaffoldState,
-    onNavigate: (UiEvent.Navigate) -> Unit,
+    onNextClick: () -> Unit,
     viewModel: AgeViewModel = hiltViewModel()
 ) {
     val spacing = LocalSpacing.current
@@ -28,7 +28,7 @@ fun AgeScreen(
     LaunchedEffect(key1 = true) {
         viewModel.uiEvent.collect { event ->
             when (event) {
-                is UiEvent.Navigate -> onNavigate(event)
+                is UiEvent.Success -> onNextClick()
                 is UiEvent.ShowSnackbar -> {
                     scaffoldState.snackbarHostState.showSnackbar(
                         message = event.message.asString(context)
@@ -52,7 +52,7 @@ fun AgeScreen(
                 text = stringResource(id = R.string.whats_your_age),
                 style = MaterialTheme.typography.h3
             )
-            Spacer(modifier = androidx.compose.ui.Modifier.height(spacing.spaceMedium))
+            Spacer(modifier = Modifier.height(spacing.spaceMedium))
             UnitTextField(
                 value = viewModel.age,
                 onValueChange = viewModel::onAgeEnter,

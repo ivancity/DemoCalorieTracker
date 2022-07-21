@@ -10,7 +10,6 @@ import com.ivan.m.core.domain.use_case.FilterOutDigits
 import com.ivan.m.core.util.UiEvent
 import com.ivan.m.core.util.UiText
 import com.ivan.m.core.R
-import com.ivan.m.core.navigation.Route
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.receiveAsFlow
@@ -48,7 +47,7 @@ class AgeViewModel @Inject constructor(
             }
             // if it is not null we can continue with the rest.
             preferences.saveAge(ageNumber)
-            _uiEvent.send(UiEvent.Navigate(Route.HEIGHT))
+            _uiEvent.send(UiEvent.Success)
         }
     }
 

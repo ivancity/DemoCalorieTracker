@@ -1,4 +1,4 @@
-package com.ivan.m.core.navigation
+package com.ivan.m.democalorietracker.navigation
 
 object Route {
     const val WELCOME = "welcome"
