@@ -51,7 +51,12 @@ fun TrackerOverviewScreen(
             Spacer(modifier = Modifier.height(spacing.spaceMedium))
         }
         // body for the screen
-        items(state.meals) { meal ->
+        items(
+            state.meals,
+            key = { meal ->
+                meal.mealType.name
+            }
+        ) { meal ->
             ExpandableMeal(
                 meal = meal,
                 onToggleClick = {
