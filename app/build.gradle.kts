@@ -15,7 +15,7 @@ android {
         versionCode = ProjectConfig.versionCode
         versionName = ProjectConfig.versionName
 
-        testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
+        testInstrumentationRunner = "com.ivan.m.democalorietracker.HiltTestRunner"
         vectorDrawables {
             useSupportLibrary = true
         }
