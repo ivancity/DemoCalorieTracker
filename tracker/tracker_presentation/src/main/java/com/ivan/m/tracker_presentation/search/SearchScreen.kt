@@ -16,6 +16,7 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalSoftwareKeyboardController
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import coil.annotation.ExperimentalCoilApi
 import com.ivan.m.core.util.UiEvent
@@ -83,7 +84,14 @@ fun SearchScreen(
         )
         Spacer(modifier = Modifier.height(spacing.spaceMedium))
         LazyColumn(modifier = Modifier.fillMaxSize()) {
-            items(state.trackableFood) { food ->
+            items(state.trackableFood.size) { i ->
+                val food = state.trackableFood[i]
+                if (i >= state.trackableFood.size - 1 &&
+                        !state.endReached &&
+                        !state.isSearching) {
+                    viewModel.loadNextItems()
+                }
+
                 TrackableFoodItem(
                     trackableFoodUiState = food,
                     onClick = {
@@ -107,6 +115,19 @@ fun SearchScreen(
                     modifier = Modifier.fillMaxWidth()
                 )
             }
+            item {
+                if(state.isSearching &&
+                    state.trackableFood.isNotEmpty()) {
+                    Row(
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .padding(8.dp),
+                        horizontalArrangement = Arrangement.Center
+                    ) {
+                        CircularProgressIndicator()
+                    }
+                }
+            }
         }
 
     }
@@ -115,7 +136,7 @@ fun SearchScreen(
         contentAlignment = Alignment.Center
     ) {
         when {
-            state.isSearching -> CircularProgressIndicator()
+            state.isSearching && state.trackableFood.isEmpty() -> CircularProgressIndicator()
             state.trackableFood.isEmpty() -> {
                 Text(
                     text = stringResource(id = R.string.no_results),
